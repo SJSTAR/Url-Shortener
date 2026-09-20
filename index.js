@@ -1,120 +1,29 @@
 
 const express= require('express')
 const PORT = process.env.PORT || 8001;
+const path = require('path')
 const app=express();
-// const DbUrl=''
+// const MONGODB_URI='mongodb://localhost:27017/short-url'
 const MONGODB_URI = process.env.MONGODB_URI;
 if (!MONGODB_URI) {
   console.error("MONGODB_URI is not configured");
   process.exit(1);
 }
-
 const {connectDB}= require('./connect')
 const router=require('./routes/url')
+app.set('view engine','ejs')
+app.set('views',path.resolve('./views'))
 app.use(express.json()) 
 connectDB(MONGODB_URI)
-// connectDB('mongodb://localhost:27017/short-url')
 app.use('/url',router)
-app.use('/',(req,res)=>{
-    res.send(`
-        <!DOCTYPE html>
-
-<html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-  <title>URL Shortener</title>
-
-  <style>
-    * {
-      box-sizing: border-box;
-      margin: 0;
-      padding: 0;
-    }
-
-    body {
-      font-family: Arial, sans-serif;
-      min-height: 100vh;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      background: #f5f7fa;
-      color: #1f2937;
-    }
-
-    .container {
-      text-align: center;
-      max-width: 600px;
-      padding: 40px 24px;
-    }
-
-    .icon {
-      font-size: 52px;
-      margin-bottom: 20px;
-    }
-
-    h1 {
-      font-size: 42px;
-      margin-bottom: 14px;
-      color: #111827;
-    }
-
-    p {
-      font-size: 18px;
-      line-height: 1.6;
-      color: #6b7280;
-      margin-bottom: 28px;
-    }
-
-    .status {
-      display: inline-block;
-      padding: 10px 18px;
-      border-radius: 20px;
-      background: #dcfce7;
-      color: #166534;
-      font-size: 14px;
-      font-weight: 600;
-    }
-
-    footer {
-      margin-top: 35px;
-      font-size: 13px;
-      color: #9ca3af;
-    }
-  </style>
-
-</head>
-
-<body>
-  <main class="container">
-    <div class="icon">🔗</div>
-
-
-<h1>URL Shortener</h1>
-
-<p>
-  A simple and fast URL shortening service.
-  Create short, shareable links from long URLs.
-</p>
-
-<div class="status">
-  ✓ Service is running
-</div>
-
-<footer>
-  Built with Node.js, Express & MongoDB
-</footer>
-
-
-  </main>
-</body>
-</html>
-
-
-
-        `)
+app.use('/new',(req,res)=>{
+    console.log('.sdf')
+    return res.render('new')
 })
+app.use('/',(req,res)=>{
+    return res.render('home')
+})
+
 
 
 app.listen(PORT,"0.0.0.0",()=>console.log('Server Started'));

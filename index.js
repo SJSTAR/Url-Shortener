@@ -1,7 +1,7 @@
 const express= require('express')
 const PORT = process.env.PORT || 8001;
 const app=express();
-// const DbUrl='mongodb+srv://jaglan89010_db_user:HagQ4BLpbBKqLPbe@urlshortener.xkganbb.mongodb.net/?appName=UrlShortener'
+// const DbUrl=''
 const MONGODB_URI = process.env.MONGODB_URI;
 if (!MONGODB_URI) {
   console.error("MONGODB_URI is not configured");
